@@ -1,0 +1,13 @@
+{
+  "lottery": {
+    "title": "Registration for lucky draw, winning 100 for the first time",
+    "subTitle": "To complete the order for more lottery chance?",
+    "tipOne": "You have {LotteryNum} product promotion conference will enter a lottery",
+    "tipTwo": "Lottery number is used up",
+    "prizeTip": "Congratulations on your winning {name}",
+    "btnTxt": "PLAY NOW",
+    "loginTip": "Please login first"
+  },
+  "goHome": "Back to Home"
+}
+

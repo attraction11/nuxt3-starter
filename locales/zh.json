@@ -1,0 +1,12 @@
+{
+  "lottery": {
+    "title": "注册即可抽奖，首次100%中奖",
+    "subTitle": "完成下单获取更多抽奖机会？",
+    "tipOne": "您还有{LotteryNum}次抽奖机会",
+    "tipTwo": "抽奖次数用完了",
+    "prizeTip": "恭喜你中了{name}",
+    "btnTxt": "立即抽奖",
+    "loginTip": "请先登录"
+  },
+  "goHome": "回到首页"
+}
