@@ -1,10 +1,9 @@
 import { createI18n } from "vue-i18n";
-import zh from "../locales/zh.json";
 import en from "../locales/en.json";
 import th from "../locales/th.json";
 
-const lang = process.env?.NUXT_PUBLIC_LANG || "en";
-console.log("lang:***** ", lang);
+const splitHost = window.location.host.split(".");
+const lang = splitHost.length > 2 ? splitHost[0] : "en";
 
 export default defineNuxtPlugin(({ vueApp }) => {
   const i18n = createI18n({
@@ -12,7 +11,6 @@ export default defineNuxtPlugin(({ vueApp }) => {
     globalInjection: true,
     locale: lang,
     messages: {
-      zh,
       en,
       th,
     },

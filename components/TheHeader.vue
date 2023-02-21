@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed z-10 w-full bg-white flex justify-between h-14 items-center before:border-gray-400 border-half-px"
+    class="fixed z-10 w-full max-w-md bg-white flex justify-between h-14 items-center before:border-gray-400 border-half-px"
   >
     <div @click="$router.go(-1)" class="pl-4">
       <svg
@@ -18,10 +18,14 @@
         />
       </svg>
     </div>
-    <nuxt-link to="https://homingclub.com/">
-      <img class="w-20" src="/img/Homing-club-150x77.png" alt="Homing-club" />
+    <nuxt-link :to="`${link}`">
+      <img
+        class="w-20"
+        :src="`${ossImg}/img/homing-${lang}.webp`"
+        :alt="`homing-${lang}`"
+      />
     </nuxt-link>
-    <nuxt-link to="https://homingclub.com/cart/" class="pr-4">
+    <nuxt-link :to="`${link}/cart/`" class="pr-4">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -40,4 +44,6 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { lang, ossImg, link } = useLang();
+</script>

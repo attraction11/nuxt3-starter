@@ -1,3 +1,4 @@
+// https://github.com/coffeedeveloper/turntable#readme
 // const tween = {
 //   linear: (t, b, c, d) => c * t / d + b,
 //   easeInQuart: (t, b, c, d) => c * (t /= d) * t * t * t + b,
@@ -6,8 +7,8 @@
 
 // 插入style样式
 const appendCSS = (css) => {
-  let head = document.head || document.getElementsByTagName('head')[0];
-  let style = document.createElement('style');
+  let head = document.head || document.getElementsByTagName("head")[0];
+  let style = document.createElement("style");
   style.appendChild(document.createTextNode(css));
   head.appendChild(style);
 };
@@ -24,11 +25,13 @@ const extend = function (target) {
 };
 
 // 创建一个具有指定的命名空间 URI 和限定名称的元素（https://developer.mozilla.org/zh-CN/docs/Web/API/Document/createElementNS）
-const createSvgEle = name => document.createElementNS('http://www.w3.org/2000/svg', name);
+const createSvgEle = (name) =>
+  document.createElementNS("http://www.w3.org/2000/svg", name);
 
 const setAttrs = (ele, attrs) => {
   for (let t in attrs) {
-    if (t == 'href') ele.setAttributeNS('http://www.w3.org/1999/xlink', t, attrs[t]);
+    if (t == "href")
+      ele.setAttributeNS("http://www.w3.org/1999/xlink", t, attrs[t]);
     else ele.setAttribute(t, attrs[t]);
   }
 
@@ -40,31 +43,32 @@ const getPathPoint = (oPoint, degree) => {
     x: oPoint.x + oPoint.r * Math.cos(degree * (Math.PI / 180)),
     y: oPoint.y + oPoint.r * Math.sin(degree * (Math.PI / 180)),
     degree,
-  }
+  };
 };
 
-const getPointsDistance = (o, t) => Math.sqrt(Math.pow(t.x - o.x, 2) + Math.pow(t.y - o.y, 2));
+const getPointsDistance = (o, t) =>
+  Math.sqrt(Math.pow(t.x - o.x, 2) + Math.pow(t.y - o.y, 2));
 
 const movePoint = (oPoint, tPoint, dis, len) => {
-  let x = -1 * ((dis * (tPoint.x - oPoint.x) / len - tPoint.x));
-  let y = -1 * ((dis * (tPoint.y - oPoint.y) / len - tPoint.y));
+  let x = -1 * ((dis * (tPoint.x - oPoint.x)) / len - tPoint.x);
+  let y = -1 * ((dis * (tPoint.y - oPoint.y)) / len - tPoint.y);
   return { x, y };
-}
+};
 
 const random = (min, max) => min + Math.floor(Math.random() * (max - min + 1));
 
 const defaults = {
-  type: 'frame', //转盘转动类型
+  type: "frame", //转盘转动类型
   size: 320, //转盘尺寸，默认为320
   textSpace: 15, //奖品名称距离转盘边距，默认为15
-  imgSpace: 50, //奖品图片距离转盘边距，默认为50
+  // imgSpace: 50, //奖品图片距离转盘边距，默认为50
   speed: 5, //触发start事件后，转盘开始转动的速度，数字必须能给360整除 (5*60/s)
   fastSpeed: 10, //转盘进入高速转动的速度，数字必须能够给360整除 (10*60/s)
   slowSpeed: 5, //转盘从高速转动降下来的速度，数字必须能够给360整除
   speedUp: 2000, //多少毫秒后进入高速转动
   speedDown: 2000, //触发stop事件后，多少毫秒进入缓速
   values: [], //奖品对象，根据传多少个奖品对象，自动生成相应数量的转盘抽奖内容
-  className: 'turntable-effect', //动态添加class控制transition模式旋转的动画
+  className: "turntable-effect", //动态添加class控制transition模式旋转的动画
   ring: 8, //转动多少圈后到达终点，越大转速越快
 };
 
@@ -81,14 +85,11 @@ const defaults = {
 //   cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame
 // }
 
-
-
-
 export default class Turntable {
   constructor(options) {
     this.opts = extend({}, defaults, options);
     if (!this.opts.values) {
-      throw Error('values必须要有值');
+      throw Error("values必须要有值");
       return;
     }
 
@@ -114,11 +115,10 @@ export default class Turntable {
     this.svg = null;
 
     if (this.opts.container) this.draw(this.opts.container);
-
   }
 
   getValueIndexById(id) {
-    let r = this.values.filter(d => d.id == id).map(d => d.index);
+    let r = this.values.filter((d) => d.id == id).map((d) => d.index);
     return r[random(0, r.length - 1)];
   }
 
@@ -139,7 +139,7 @@ export default class Turntable {
     this.turnTotal += this.turnBase;
     if (this.turnTotal >= 360 || this.turnTotal <= -360) this.turnTotal = 0;
 
-    this.setTransform('rotate(' + -this.turnTotal + 'deg)');
+    this.setTransform("rotate(" + -this.turnTotal + "deg)");
   }
 
   // 转动结束
@@ -149,27 +149,29 @@ export default class Turntable {
 
     if (parseInt(this.turnTotal, 10) == parseInt(this.turnEndDegree)) {
       cancelAnimationFrame(this.animation);
-      this.setTransform('rotate(' + -this.turnTotal + 'deg)');
+      this.setTransform("rotate(" + -this.turnTotal + "deg)");
       this.isTurning = false;
       this.turnCallback(this.opts.values[this.index]);
       return false;
     }
 
-    this.setTransform('rotate(' + -this.turnTotal + 'deg)');
+    this.setTransform("rotate(" + -this.turnTotal + "deg)");
     return true;
   }
 
   turn() {
-    this.animation = requestAnimationFrame(function () {
-      if (!this.isTurnStop) {
-        this.turning();
-        this.turn();
-      } else {
-        if (this.turned()) {
+    this.animation = requestAnimationFrame(
+      function () {
+        if (!this.isTurnStop) {
+          this.turning();
           this.turn();
+        } else {
+          if (this.turned()) {
+            this.turn();
+          }
         }
-      }
-    }.bind(this));
+      }.bind(this)
+    );
   }
 
   start() {
@@ -181,28 +183,36 @@ export default class Turntable {
     this.isTurning = true;
     this.turn();
 
-    setTimeout(function () {
-      this.turnBase = this.opts.fastSpeed;
-    }.bind(this), this.opts.speedUp);
+    setTimeout(
+      function () {
+        this.turnBase = this.opts.fastSpeed;
+      }.bind(this),
+      this.opts.speedUp
+    );
   }
 
   stop(id, cb) {
     this.index = this.getValueIndexById(id);
     this.turnEndDegree = this.getValueDegreeByIndex(this.index);
     this.turnBase = this.opts.slowSpeed;
-    if (typeof cb !== 'function') cb = function () { };
+    if (typeof cb !== "function") cb = function () {};
     this.turnCallback = cb;
 
-    setTimeout(function () {
-      this.turnBase = 1;
-      this.isTurnStop = true;
-    }.bind(this), this.opts.speedDown);
+    setTimeout(
+      function () {
+        this.turnBase = 1;
+        this.isTurnStop = true;
+      }.bind(this),
+      this.opts.speedDown
+    );
   }
 
   goto(id, cb) {
     if (this.isTurning) return;
     this.isTurning = true;
-    let deg = Math.abs(this.svg.style.transform.replace('rotate(', '').replace('deg)', '') || 0);
+    let deg = Math.abs(
+      this.svg.style.transform.replace("rotate(", "").replace("deg)", "") || 0
+    );
     let ndeg = deg != 0 ? Math.abs(this.turnEndDegree) : 0;
 
     ndeg = Math.abs(this.opts.ring * 360 + deg - ndeg);
@@ -219,11 +229,11 @@ export default class Turntable {
     var that = this;
     this.container = container;
 
-    let svg = setAttrs(createSvgEle('svg'), {
+    let svg = setAttrs(createSvgEle("svg"), {
       width: this.opts.size,
       height: this.opts.size,
-      xmlns: 'http://www.w3.org/2000/svg',
-      'xmlns:xlink': 'http://www.w3.org/1999/xlink'
+      xmlns: "http://www.w3.org/2000/svg",
+      "xmlns:xlink": "http://www.w3.org/1999/xlink",
     });
 
     let degree = this.degree;
@@ -231,14 +241,15 @@ export default class Turntable {
     let pathEndPoint = getPathPoint(this.center, degree);
 
     this.values = this.values.map((info, i) => {
-      info.degree = i == 0 ? 90 + this.degree / 2 : this.values[i - 1].degree + this.degree;
+      info.degree =
+        i == 0 ? 90 + this.degree / 2 : this.values[i - 1].degree + this.degree;
       if (info.degree >= 360) info.degree = info.degree - 360;
       info.index = i;
 
-      let g = createSvgEle('g');
+      let g = createSvgEle("g");
 
       // https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
-      let path = setAttrs(createSvgEle('path'), {
+      let path = setAttrs(createSvgEle("path"), {
         fill: info.bg,
         d: `
           M${this.center.x}, ${this.center.y}
@@ -247,42 +258,59 @@ export default class Turntable {
           1 0, 1
           ${pathEndPoint.x}, ${pathEndPoint.y}
           z
-        `
+        `,
       });
 
       g.appendChild(path);
 
       let fanCenterPoint = {
         x: (pathEndPoint.x + pathStartPoint.x) / 2,
-        y: (pathEndPoint.y + pathStartPoint.y) / 2
+        y: (pathEndPoint.y + pathStartPoint.y) / 2,
       };
 
       let centerDistance = getPointsDistance(fanCenterPoint, this.center);
 
-      let textDegree = 180 - ((360 - this.degree * 2) / 2) / 2;
-      let textPoint = movePoint(this.center, fanCenterPoint, this.opts.textSpace, centerDistance);
+      let textDegree = 180 - (360 - this.degree * 2) / 2 / 2;
+      let textPoint = movePoint(
+        this.center,
+        fanCenterPoint,
+        this.opts.textSpace,
+        centerDistance
+      );
       let rotate = textDegree + this.degree * i;
 
-      let text = setAttrs(createSvgEle('text'), {
+      let text = setAttrs(createSvgEle("text"), {
         x: textPoint.x,
         y: textPoint.y,
-        'text-anchor': 'middle',
-        fill: info.color,
-        transform: `rotate(${rotate}, ${textPoint.x}, ${textPoint.y})`
+        "text-anchor": "middle",
+        "font-weight": 900,
+        "font-size": "20px",
+        stroke: info.color,
+        "border-radius": "10%",
+        // "font-family": "Barlow-Regular",
+        // fill: info.color,
+        transform: `rotate(${rotate}, ${textPoint.x}, ${textPoint.y})`,
       });
       text.appendChild(document.createTextNode(info.name));
 
       g.appendChild(text);
 
       if (info.img) {
-        var imgPoint = movePoint(this.center, fanCenterPoint, this.opts.imgSpace, centerDistance);
-        var img = setAttrs(createSvgEle('image'), {
+        var imgPoint = movePoint(
+          this.center,
+          fanCenterPoint,
+          info.imgSpace,
+          centerDistance
+        );
+        var img = setAttrs(createSvgEle("image"), {
           width: info.img.width,
           height: info.img.height,
           href: info.img.src,
           x: imgPoint.x,
           y: imgPoint.y,
-          transform: `rotate(${rotate}, ${imgPoint.x}, ${imgPoint.y}) translate(${-(info.img.width / 2)}, ${-(info.img.height / 2)})`
+          transform: `rotate(${rotate}, ${imgPoint.x}, ${
+            imgPoint.y
+          }) translate(${-(info.img.width / 2)}, ${-(info.img.height / 2)})`,
         });
         g.appendChild(img);
       }
@@ -290,7 +318,10 @@ export default class Turntable {
       svg.appendChild(g);
 
       pathStartPoint = pathEndPoint;
-      pathEndPoint = getPathPoint(this.center, this.degree + this.degree * (i + 1));
+      pathEndPoint = getPathPoint(
+        this.center,
+        this.degree + this.degree * (i + 1)
+      );
 
       return info;
     });
@@ -298,16 +329,20 @@ export default class Turntable {
     container.appendChild(svg);
     this.svg = svg;
 
-    if (this.opts.type == 'transition') this.initTransition();
+    if (this.opts.type == "transition") this.initTransition();
   }
 
   initTransition() {
     setAttrs(this.svg, { class: this.opts.className });
 
-    this.svg.addEventListener('transitionend', () => {
-      this.isTurning = false;
-      this.turnCallback(this.values[this.index]);
-    }, false);
+    this.svg.addEventListener(
+      "transitionend",
+      () => {
+        this.isTurning = false;
+        this.turnCallback(this.values[this.index]);
+      },
+      false
+    );
 
     appendCSS(`
       .${this.opts.className} {

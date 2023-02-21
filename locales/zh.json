@@ -1,12 +1,15 @@
 {
   "lottery": {
-    "title": "注册即可抽奖，首次100%中奖",
-    "subTitle": "完成下单获取更多抽奖机会？",
-    "tipOne": "您还有{LotteryNum}次抽奖机会",
-    "tipTwo": "抽奖次数用完了",
-    "prizeTip": "恭喜你中了{name}",
-    "btnTxt": "立即抽奖",
-    "loginTip": "请先登录"
+    "title": "注册即可抽奖！100%中奖",
+    "subTitle": "每天第一单可以获取更多抽奖机会",
+    "tipOne": "你还有{LotteryNum}次抽奖机会",
+    "tipTwo": "您的抽奖机会已经用完，<br />每天第一次下单即可获取更多机会",
+    "btnTxt": "开始抽奖！",
+    "loginTip": "请先登录",
+    "toBuy": "去购物",
+    "noLoginTip": "登录即可查看抽奖次数",
+    "copyCode": "复制券码",
+    "hasCopy": "已复制"
   },
   "goHome": "回到首页"
 }

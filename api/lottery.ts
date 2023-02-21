@@ -1,24 +1,39 @@
 import http from "~/api/request";
-import { JackpotVO, PrizeVO } from "~/types/lottery";
+import { ChanceVO, AwardPoolVO, CurrencyVO } from "./types/lottery";
 
 export const lottery = {
-  // 获取奖池信息
-  getJackpotInfo(): Promise<ApiResponse& {data: JackpotVO[]}> {
-    return http.get("/jackpot/detail");
+  // 查询奖池
+  getJackpotInfo(params: { activityId: number }): Promise<AwardPoolVO> {
+    return http.get("/marketing/lucky/draw/query/award/pool", params);
   },
 
-  // 获取用户信息
+  // 获得当前登录用户IP的货币符号和汇率 (PHP)
+  getCurrencyInfo(): Promise<CurrencyVO> {
+    return http.get("/wp-admin/admin-ajax.php?action=zm_get_current_currency");
+  },
+
+  // 获得登录用户的token (PHP)
   getUserInfo(): Promise<ApiResponse> {
-    return http.get("/php/userInfo");
+    return http.get("/wp-admin/admin-ajax.php?action=zm_get_user_token");
   },
 
-  // 获取抽奖次数
-  getLotteryNum(): Promise<ApiResponse> {
-    return http.get("/jackpot/number");
+  // 剩余抽奖机会
+  getLotteryNum(
+    params: { activityId: number },
+    token?: string
+  ): Promise<ApiResponse> {
+    return http.get("/marketing/lucky/draw/chance/times", params, token);
   },
 
-  // 获取抽奖结果
-  getLotteryResult(): Promise<ApiResponse & {data: PrizeVO}> {
-    return http.get("/jackpot/result");
+  // 抽奖
+  getLotteryResult(data: { activityId: number }): Promise<ChanceVO> {
+    return http.post("/marketing/lucky/draw/use/chance", data);
+  },
+
+  // 赠送实物
+  getGiftInKind(itemId: string): Promise<ApiResponse> {
+    return http.get(
+      `/wp-admin/admin-ajax.php?action=zm_add_to_cart&itemId=${itemId}`
+    );
   },
 };

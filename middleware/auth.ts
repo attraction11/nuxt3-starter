@@ -2,7 +2,7 @@ import { api } from '~/api/api';
 import { userStore } from '~/stores/user';
 
 export default defineNuxtRouteMiddleware((to, from) => {
-    const token = useCookie('token')
+    const token = useCookie('user-token')
     const store = userStore();
 
     if (typeof (token.value) == 'undefined') {

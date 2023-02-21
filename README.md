@@ -1,47 +1,22 @@
-## 一、clone 基础模板
+## 一、关于上线两个站点需要的修改点!!!（默认马来）
 
-1、基于 element-plus 的示例项目  
-git 地址：https://github.com/element-plus/element-plus-nuxt-starter.git
+<!-- - 1、nuxt.config.ts 
+    href 修改:
+      en-favicon.ico    (马来)
+      th-favicon.ico    (泰国)
 
-## 二、添加语言国际化
+    header.title 修改
+      HomingClub – Small changes make your dream life       (马来)
+      Homingday – ใฝ่ฝันชีวิตอันสวยงาม                            (泰国) -->
 
-1、基于 vue-i18n-next 的示例项目，按照项目配置添加。  
-git 地址:https://github.com/intlify/vue-i18n-next/tree/master/examples/frameworks/nuxt3
 
-## 三、添加 windCSS
 
-1、基于 nuxt-windcss 示例项目  
-git 地址：https://github.com/windicss/nuxt-windicss/tree/main/playground/nuxt3
+## 二、本地联调
 
-## 四、利用 plugin 功能添加谷歌分析 GA4
+- 1、修改 api\request.ts 中请求接口地址:
+  "http://120.48.56.30:8060"       (测试环境)
+  "https://api.zhiming-inc.com"    (线上环境)
 
-1、集成谷歌统计  
-传送门：https://v3.nuxtjs.org/guide/directory-structure/plugins
 
-## 五、添加 pinia 状态管理
-
-1、参考 pinia 集成 nuxt 官方示例  
-传送门：https://stackblitz.com/github/piniajs/example-nuxt-3
-
-## 六、配置使用$fetch 请求接口数据
-
-1、参考项目（在线地址：https://www.zngg.net/）  
-传送门：https://github.com/ZN-GG/ZNGG-Nuxt3
-
-## 七、最终模板地址（(❤ ω ❤)期待小星星 ⭐⭐⭐）
-
-git 地址：https://github.com/attraction11/nuxt3-start-tpl
-
-## 八、添加环境变量
-
-1、添加.env 文件 (加入.gitignore)，进行开发调试
-
-```
-# NUXT_API_SECRET=xxx
-NUXT_PUBLIC_API_BASE=/api
-NUXT_PUBLIC_LANG=en
-```
-
-## 九、关于简洁版
-
-`git switch simple` 享用~
+- 2、pages\index.vue  移除测试环境，token.value 
+  配置 eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9...

@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "clear && nuxi clean && nuxi dev",
     "build": "nuxi build",
-    "generate": "nuxi generate",
+    "generate": "clear && nuxi clean && nuxi generate",
     "preview": "nuxi preview",
     "clean": "nuxi clean",
     "start": "node .output/server/index.mjs"

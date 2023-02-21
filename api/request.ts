@@ -1,5 +1,4 @@
-const baseUrl = process.env?.NUXT_PUBLIC_API_BASE || "https://api.zngg.net";
-console.log("baseUrl:***** ", baseUrl);
+import { ElMessage } from "element-plus";
 
 const errorResponse: ApiResponse = {
   success: false,
@@ -8,22 +7,39 @@ const errorResponse: ApiResponse = {
   data: null,
 };
 
-function isPHPApi(url: string) {
-  if (url.includes("/php/")) return true;
-  return false;
+function getBaseURL(url: string) {
+  if (url.includes("/wp-admin/")) {
+    return "";
+  }
+  // return "http://120.48.56.30:8060";
+  return "https://api.zhiming-inc.com";
 }
 
-const get = async (url: string, params = {}): Promise<ApiResponse> => {
+const get = async (
+  url: string,
+  params = {},
+  newToken?: string
+): Promise<ApiResponse> => {
   try {
-    const token = useCookie("token");
-    url = isPHPApi(url) ? url.replace("/php", "") : url;
-    const res = await $fetch<ApiResponse>(baseUrl + url, {
+    const token = useCookie("user-token");
+    let res = await $fetch<ApiResponse>(url, {
       headers: {
-        "user-token": token.value,
+        // cookie赋值为异步，这里采用传参的token
+        "user-token": newToken || token.value,
       },
+      baseURL: getBaseURL(url),
       method: "GET",
+      retry: false,
       params: params,
     });
+
+    if (url.includes("/wp-admin/")) {
+      res = JSON.parse(res);
+    }
+
+    if (res.code !== 200 && res.code !== 401) {
+      ElMessage.error(res.message);
+    }
     return res;
   } catch (error) {
     errorResponse.message = error as string;
@@ -31,43 +47,31 @@ const get = async (url: string, params = {}): Promise<ApiResponse> => {
   }
 };
 
-const post = async (url: string, params = {}): Promise<ApiResponse> => {
+const post = async (url: string, data = {}): Promise<ApiResponse> => {
   try {
-    const token = useCookie("token");
-    url = isPHPApi(url) ? url.replace("/php", "") : url;
-    const res = await $fetch<ApiResponse>(baseUrl + url, {
+    const token = useCookie("user-token");
+    let res = await $fetch<ApiResponse>(url, {
       headers: {
-        // "Accept": "application/json, text/plain, */*",
-        // "Content-Type": "application/json",
         "user-token": token.value,
       },
+      baseURL: getBaseURL(url),
       method: "POST",
-      body: params,
+      retry: false,
+      body: data,
     });
+
+    if (url.includes("/wp-admin/")) {
+      res = JSON.parse(res);
+    }
+
+    if (res.code !== 200 && res.code !== 401) {
+      ElMessage.error(res.message);
+    }
     return res;
   } catch (error) {
     errorResponse.message = error as string;
     return errorResponse;
   }
 };
-
-// const put = async (url: string, params = {}): Promise<ApiResponse> => {
-//     try {
-//         const token = useCookie('token');
-//         const res = await $fetch<ApiResponse>(baseUrl + url, {
-//             headers: {
-//                 // "Accept": "application/json, text/plain, */*",
-//                 // "Content-Type": "application/json",
-//                 "user-token": token.value,
-//             },
-//             method: 'PUT',
-//             body: params,
-//         });
-//         return res;
-//     } catch (error) {
-//         errorResponse.message = error;
-//         return errorResponse;
-//     }
-// };
 
 export default { get, post };

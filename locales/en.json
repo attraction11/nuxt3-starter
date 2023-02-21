@@ -1,13 +1,15 @@
 {
   "lottery": {
-    "title": "Registration for lucky draw, winning 100 for the first time",
-    "subTitle": "To complete the order for more lottery chance?",
-    "tipOne": "You have {LotteryNum} product promotion conference will enter a lottery",
-    "tipTwo": "Lottery number is used up",
-    "prizeTip": "Congratulations on your winning {name}",
-    "btnTxt": "PLAY NOW",
-    "loginTip": "Please login first"
+    "title": "Register to 100% win！",
+    "subTitle": "The first order of the day can get more lottery opportunities",
+    "tipOne": "You have {name} more chance to draw",
+    "tipTwo": "Your chance to win has been used up .<br/> You can get more chances by placing your first order every day",
+    "btnTxt": "Play now！",
+    "loginTip": "Please login first",
+    "toBuy": "Go Shopping",
+    "noLoginTip": "Login to view the number of draws",
+    "copyCode": "Copy code",
+    "hasCopy": "Copied"
   },
   "goHome": "Back to Home"
 }
-

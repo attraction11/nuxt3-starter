@@ -6,19 +6,22 @@ import VueI18nVitePlugin from "@intlify/unplugin-vue-i18n/vite";
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
+  ssr: false,
+
   // meta
-  meta: {
-    title: "HomingClub – Small changes make your dream life",
-    meta: [
-      {
-        hid: "description",
-        name: "description",
-        content: "Southeast Asian lifestyle brand HomingDay",
-      },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-    ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
-  },
+  // header: {
+  //   title: "HomingDay - Small changes make your dream life",
+  //   // title: "Homingday – ใฝ่ฝันชีวิตอันสวยงาม",
+  //   meta: [
+  //     {
+  //       hid: "description",
+  //       name: "description",
+  //       content: "Southeast Asian lifestyle brand HomingDay",
+  //     },
+  //     { name: "viewport", content: "width=device-width, initial-scale=1" },
+  //   ],
+  //   link: [{ rel: "icon", type: "image/x-icon", href: "./favicon.ico" }],
+  // },
 
   // css
   css: ["~/assets/scss/index.scss"],
@@ -74,5 +77,15 @@ export default defineNuxtConfig({
         res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
       },
     },
+  },
+
+  app: {
+    baseURL: "/marketing",
+  },
+
+  router: {
+    // mode: 'hash',
+    base: "/marketing",
+    routes: ["/", "/marketing"],
   },
 });

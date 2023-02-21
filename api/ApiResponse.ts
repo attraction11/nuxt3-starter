@@ -1,6 +1,8 @@
 type ApiResponse = {
-    success: boolean
-    code: number,
-    message: string,
-    data: any
-}
+  code: number;
+  message: string;
+  token?: any;
+  data: any;
+  success?: boolean;
+  traceId?: string;
+};

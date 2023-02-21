@@ -1,10 +1,11 @@
 type reportVo = {
-  event?: string
-  ecommerce: {} | null
-}
+  event?: string;
+  ecommerce: {} | null;
+};
 
 interface Window {
   dataLayer: {
-    push: (item: reportVo) => void
-  }
+    push: (item: reportVo) => void;
+  };
+  readonly top: any;
 }
