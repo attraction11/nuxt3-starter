@@ -15,8 +15,8 @@
 
 - 1、修改 api\request.ts 中请求接口地址:
   "http://120.48.56.30:8060"       (测试环境)
-  "https://api.zhiming-inc.com"    (线上环境)
+  "https://api.xxxxx-inc.com"    (线上环境)
 
 
 - 2、pages\index.vue  移除测试环境，token.value 
-  配置 eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9...
+  配置 eyxxx...
